@@ -40,27 +40,27 @@ The easy way to do it, of course, is to just convert the numbers on my calculato
 Would I have done anything different if I was coding by actual typing rather than pressing the tab key? I would probably have not written lines 43 to 51 like this:
 
 ```python
-    # suggestion from Copilot
-    headers = []
-    values = []
-    for line in lines:
-        if ":" in line:
-            header, value = line.split(": ")
-            headers.append(header)
-            values.append(value)
-    values = [convert_to_celsius(v) for v in values]
-    table = dict(zip(headers, values))
+# suggestion from Copilot
+headers = []
+values = []
+for line in lines:
+    if ":" in line:
+        header, value = line.split(": ")
+        headers.append(header)
+        values.append(value)
+values = [convert_to_celsius(v) for v in values]
+table = dict(zip(headers, values))
 ```
 I would have done this:
 
 ```python
-    # my version
-    table = dict()
-    for line in lines:
-        if ":" in line:
-            header, value = line.split(": ")
-            value = convert_to_celsius(value)
-            table[header] = value
+# my version
+table = dict()
+for line in lines:
+    if ":" in line:
+        header, value = line.split(": ")
+        value = convert_to_celsius(value)
+        table[header] = value
 ```
 
 It would have been more succinct and would have avoided the need to transpose the table in the `convert_to_markdown` function. Having said that, when transposition is needed, it would usually have consumed a lot more time than it took to press tab. Also, the function to produce the Markdown table is neater than anything I would have done and still very readable.
