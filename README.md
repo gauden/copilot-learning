@@ -17,3 +17,4 @@ Doing it in public is scary, but hey, who's watching?
 | Day | Note                                                            | Link                                           |
 | --- | --------------------------------------------------------------- | ---------------------------------------------- |
 | 0   | Load a text file and extract numeric information for processing | [number_stripper](./number_stripper/README.md) |
+| 1   | Download refs by a given author from Pubmed; extract some data  | [pubmed_extract](./pubmed_extract/README.md)   |
