@@ -24,3 +24,14 @@ For the next experiment, a few of the shortcomings must be improved, consider th
 4. There is a superfluous import of the `time` standard module; easily corrected by hand, but let's leave that till later as there may be uses for it in the final version.
 
 Try this again tomorrow, guiding it with proper functional structure, adding the query string by hand, and prompting Copilot to retrieve an email stored as an environmental variable and to use that in its interaction with `efetch`.
+
+## Version 01
+
+Again a short excursion, this time into refactoring the code produced in yesterday. The actions taken:
+
+1. The code was segmented into functions. All it required was the creation of descriptive function names, Github suggested docstrings which were accepted, and in one case tweaked to make it more explicit (see docstring for `loop_through_all_publications_and_collect_ids()`).
+2. The query string function suggested by Copilot repeatedly malfunctioned. I collected a template from Pubmed and also reminded Copilot via a comment to url-encode the string before using it to fetch data.
+
+As a result, the refactored code is very close to working, but still crashes with an error. The logic in `loop_through_all_publications_and_collect_ids()` is faulty. Not sure it is programming error (faulty logic from Copilot) or whether I need to teach it how to seed the `retmax` and `retstart` variables to guide through downloading successive pages of paper IDs.
+
+On the agenda for the quick experiment tomorrow: get the download loop working, and for extra marks, start the process of storing all records in a local SQLite table rather than a plain text file.
