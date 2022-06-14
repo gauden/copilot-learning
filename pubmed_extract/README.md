@@ -35,3 +35,23 @@ Again a short excursion, this time into refactoring the code produced in yesterd
 As a result, the refactored code is very close to working, but still crashes with an error. The logic in `loop_through_all_publications_and_collect_ids()` is faulty. Not sure it is programming error (faulty logic from Copilot) or whether I need to teach it how to seed the `retmax` and `retstart` variables to guide through downloading successive pages of paper IDs.
 
 On the agenda for the quick experiment tomorrow: get the download loop working, and for extra marks, start the process of storing all records in a local SQLite table rather than a plain text file.
+
+## Version 02
+
+The challenge is morphing with every day that passes. I find that I am trying to replicate with Copilot and the standard library a routine that is easily done in Biopython (see the [tutorial](http://biopython.org/DIST/docs/tutorial/Tutorial.html#sec168) section 9.16.2). 
+
+Today I spent 52 minutes refactoring the code and trying to follow the correct sequence of steps, including:
+
+1. Setting global values for `EMAIL` and `TOOL` to keep the Entrez system informed, as they request. Ensuring that these values are used throughout the functions.
+2. Using the `esearch` tool to set up a web environment and to retrieve Ids and a count of records.
+3. Dividing the records into batches of Ids, retrieving each batch of records, and storing them in the output file.
+
+Most of the hour spent on this involved micro-managing Copilot into separating the code between `esearch` and `efetch`. Once the two functions were divided up, with good function names, then Copilot appeared to know the logic of each and certainly took care of all the conversion back and forth between strings and XML formats.
+
+There was one instance where StackOverflow was needed: despite trying multiple types of comment, I could not get Copilot to convert ElementTree elements to strings. I finally had to add the `method="xml"` parameter by hand in line 143:
+
+```python
+f.write(ET.tostring(record, encoding="unicode", method="xml"))
+```
+Most importantly, after three sessions with Copilot on this challenge, I managed to get a retrieval of a dataset. The particular search I gave it retrieved 83 records, but the final output file contained only 20. It appears the batch retrieval process is not working. A challenge for tomorrow?
+

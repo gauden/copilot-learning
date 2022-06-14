@@ -14,8 +14,9 @@ Doing it in public is scary, but hey, who's watching?
 
 ## Experiments
 
-| Day | Note                                                            | Link                                           |
-| --- | --------------------------------------------------------------- | ---------------------------------------------- |
-| 0   | Load a text file and extract numeric information for processing | [number_stripper](./number_stripper/README.md) |
-| 1   | Download refs by a given author from Pubmed; extract some data  | [pubmed_extract](./pubmed_extract/README.md)   |
-| 2   | Refactor yesterday's code and get to core download loop         | [pubmed_extract](./pubmed_extract/README.md)   |
+| Day | Note                                                            | Link                                                    |
+| --- | --------------------------------------------------------------- | ------------------------------------------------------- |
+| 0   | Load a text file and extract numeric information for processing | [number_stripper](./number_stripper/README.md)          |
+| 1   | Download refs by a given author from Pubmed; extract some data  | [pubmed_extract](./pubmed_extract/README.md)            |
+| 2   | Refactor yesterday's code and get to core download loop         | [pubmed_extract](./pubmed_extract/README.md#version-01) |
+| 3   | Divide retrieval between `esearch` and `efetch`                 | [pubmed_extract](./pubmed_extract/README.md#version-02) |
