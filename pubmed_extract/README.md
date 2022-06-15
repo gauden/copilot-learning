@@ -57,7 +57,7 @@ Most importantly, after three sessions with Copilot on this challenge, I managed
 
 ## Version 03
 
-Thirty tree minutes to complete today's experiment. 
+Thirty three minutes to complete today's experiment. 
 
 1. Copilot made an error in using the `esummary` tool when `efetch` was needed -- that took some debugging when the script started failing again and a manual correction.
 2. Also, having retrieved all records, each as an `ElementTree.ET` object, in a list, I wanted to bring all the records into one complete XML object. I could not find a comment to get Copilot to do that. I had to give a highly specific comment to guide it: `# create root XML element called "PubmedArticleSet" and add records to it` (see line 152 of today's commit.)
