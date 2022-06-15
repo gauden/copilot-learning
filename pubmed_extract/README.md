@@ -55,3 +55,16 @@ f.write(ET.tostring(record, encoding="unicode", method="xml"))
 ```
 Most importantly, after three sessions with Copilot on this challenge, I managed to get a retrieval of a dataset. The particular search I gave it retrieved 83 records, but the final output file contained only 20. It appears the batch retrieval process is not working. A challenge for tomorrow?
 
+## Version 03
+
+Thirty tree minutes to complete today's experiment. 
+
+1. Copilot made an error in using the `esummary` tool when `efetch` was needed -- that took some debugging when the script started failing again and a manual correction.
+2. Also, having retrieved all records, each as an `ElementTree.ET` object, in a list, I wanted to bring all the records into one complete XML object. I could not find a comment to get Copilot to do that. I had to give a highly specific comment to guide it: `# create root XML element called "PubmedArticleSet" and add records to it` (see line 152 of today's commit.)
+
+The key lessons from this day:
+
+- Copilot cannot be expected to know the arcana of specific packages and tools e.g. the Pubmed search tools and the `xml` module in the Python standard library. I would have expected difficulty with the first, but I would not have expected any issues with the standard library. Indeed, it had been my hope that I could use Copilot to explore the standard library at least.
+- Having said that, in just over two and a half hours total, Copilot has given me a tool that would have taken me much longer to write were I to delve through the manuals and documentation of a ton of packages. Indeed, I think the total number of such lookups over the past three days was once or twice a day on average.
+
+At the end of this exercise, I have the extractor working, giving me an XML file on my hard disk with all the references returned from a Pubmed search. Where to next? SQLite? Let's see tomorrow.

@@ -51,9 +51,13 @@ def get_count_of_papers_using_esearch(query_string: str) -> int:
     response = urllib.request.urlopen(url)
     xml = response.read()
     root = ET.fromstring(xml)
+
+    # extract count, webenv, and querykey from the search results
     count = root.find("Count").text
     logging.info("Found {} publications".format(count))
-    return root, int(count)
+    webenv = root.find("WebEnv").text
+    querykey = root.find("QueryKey").text
+    return int(count), webenv, querykey
 
 
 def get_records_for_ids(
@@ -72,6 +76,22 @@ def get_records_for_ids(
     return root.findall("PubmedArticle")
 
 
+def get_ids_for_batch(i: int, batch_size: int, webenv: str, querykey: str) -> list:
+    """
+    Get the ids for a batch of records.
+    """
+    core_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=xml"
+    url = "{}&rettype=abstract&retstart={}&retmax={}&tool={}&email={}&WebEnv={}&query_key={}".format(
+        core_url, i, batch_size, TOOL, EMAIL, webenv, querykey
+    )
+    logging.info("URL: {}".format(url))
+    response = urllib.request.urlopen(url)
+    xml = response.read()
+    root = ET.fromstring(xml)
+    ids = [id.text for id in root.findall("IdList/Id")]
+    return ids
+
+
 def retrieve_all_records_in_batches(
     query_string: str, email: str = EMAIL, tool: str = TOOL
 ) -> list:
@@ -80,21 +100,13 @@ def retrieve_all_records_in_batches(
     """
 
     # retrieve the search results and count using esearch
-    search_results_as_XML, count = get_count_of_papers_using_esearch(query_string)
-
-    # get webenv and querykey from search results
-    webenv = search_results_as_XML.find("WebEnv").text
-    querykey = search_results_as_XML.find("QueryKey").text
+    count, webenv, querykey = get_count_of_papers_using_esearch(query_string)
 
     # retrieve the records in batches using efetch
     batch_size = 100
-    batches = [
-        search_results_as_XML.find("IdList").findall("Id")[i : i + batch_size]
-        for i in range(0, count, batch_size)
-    ]
     records = []
-    for batch in batches:
-        ids = [id.text for id in batch]
+    for i in range(0, count, batch_size):
+        ids = get_ids_for_batch(i, batch_size, webenv, querykey)
         records.extend(get_records_for_ids(ids, email, tool, webenv, querykey))
     return records
 
@@ -112,7 +124,7 @@ def parse_and_validate_args(args: list) -> argparse.Namespace:
     return parser.parse_args(args)
 
 
-def create_output_file(args: argparse.Namespace) -> None:
+def create_output_file_name(args: argparse.Namespace) -> None:
     """
     Create the output file.
     """
@@ -131,17 +143,19 @@ def main():
     """
     args = parse_and_validate_args(sys.argv[1:])
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
-    create_output_file(args)
+    create_output_file_name(args)
 
     query_string = prepare_query_string(args.author, args.start_year, args.end_year)
     records = retrieve_all_records_in_batches(query_string)
     # log the number of records found
     logging.info("Found {} records".format(len(records)))
+    # create root XML element called "PubmedArticleSet" and add records to it
+    root = ET.Element("PubmedArticleSet")
+    for record in records:
+        root.append(record)
+    # write the XML to the output file
     with open(args.output, "w") as f:
-        for record in records:
-            # convert record from ET Element to string ready for writing to file
-            f.write(ET.tostring(record, encoding="unicode", method="xml"))
-            f.write("\n")
+        f.write(ET.tostring(root, encoding="unicode"))
 
 
 if __name__ == "__main__":
