@@ -68,3 +68,11 @@ The key lessons from this day:
 - Having said that, in just over two and a half hours total, Copilot has given me a tool that would have taken me much longer to write were I to delve through the manuals and documentation of a ton of packages. Indeed, I think the total number of such lookups over the past three days was once or twice a day on average.
 
 At the end of this exercise, I have the extractor working, giving me an XML file on my hard disk with all the references returned from a Pubmed search. Where to next? SQLite? Let's see tomorrow.
+
+## Version 04
+
+One of the recurring problems with SQL is the tedium of creating tables and fields that correspond with the data structure. Today's experiment started with the idea: can I avoid that tedium by parsing an XML object, creating tables in SQLite that correspond to the fields and attributes of that object, including preserving relations, and then parse my search results, inserting them into the database.
+
+The answer: I am being too ambitious. Today's exercise took 54 minutes, including the writing of this note, and despite multiple efforts to prompt recursive analysis of the XML object, I could not get a mapping to the SQL format I needed, even when I tried to convert to JSON as an intermediate format.
+
+Maybe I am being too ambitious? Let's see tomorrow.

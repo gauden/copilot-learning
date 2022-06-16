@@ -124,3 +124,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 copilot-learning.code-workspace
+.DS_Store
