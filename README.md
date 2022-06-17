@@ -14,12 +14,16 @@ Doing it in public is scary, but hey, who's watching?
 
 ## Experiments
 
-| Day | Note                                                            | Link                                                    |
-| --- | --------------------------------------------------------------- | ------------------------------------------------------- |
-| 0   | Load a text file and extract numeric information for processing | [number_stripper](./number_stripper/README.md)          |
-| 1   | Download refs by a given author from Pubmed; extract some data  | [pubmed_extract](./pubmed_extract/README.md)            |
-| 2   | Refactor yesterday's code and get to core download loop         | [pubmed_extract](./pubmed_extract/README.md#version-01) |
-| 3   | Divide retrieval between `esearch` and `efetch`                 | [pubmed_extract](./pubmed_extract/README.md#version-02) |
-| 4   | First fully working version, storing results of  a full search  | [pubmed_extract](./pubmed_extract/README.md#version-03) |
-| 5   | Failed attempt to automate creation of SQLite table             | [pubmed_extract](./pubmed_extract/README.md#version-04) |
-| 5   | Collect simple record for each record in the search.            | [pubmed_extract](./pubmed_extract/README.md#version-05) |
+| Day | Note                                                              | Link                                                    |
+| --- | ----------------------------------------------------------------- | ------------------------------------------------------- |
+|     | **Experiment #1: Strip numbers from block of text**               |                                                         |
+| 0   | _Load a text file and extract numeric information for processing_ | [number_stripper](./number_stripper/README.md)          |
+|     | **Experiment #2: Query Pubmed and work with results**             |                                                         |
+| 1   | Download refs by a given author from Pubmed; extract some data    | [pubmed_extract](./pubmed_extract/README.md)            |
+| 2   | Refactor yesterday's code and get to core download loop           | [pubmed_extract](./pubmed_extract/README.md#version-01) |
+| 3   | Divide retrieval between `esearch` and `efetch`                   | [pubmed_extract](./pubmed_extract/README.md#version-02) |
+| 4   | _First fully working version, storing results of  a full search_  | [pubmed_extract](./pubmed_extract/README.md#version-03) |
+| 5   | Failed attempt to automate creation of SQLite table               | [pubmed_extract](./pubmed_extract/README.md#version-04) |
+| 6   | _Collect simple record for each author in the search._            | [pubmed_extract](./pubmed_extract/README.md#version-05) |
+
+_Italics_ indicate an addition to the experiment that works to spec.

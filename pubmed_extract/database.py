@@ -61,7 +61,7 @@ def retrieve_name_of_author(author_element: ET.Element) -> str:
         if child.tag == "Initials":
             name += " " + child.text
         if child.tag == "CollectiveName":
-            name = child.text
+            name = f"{child.text} (Collective)"
     return name
 
 
