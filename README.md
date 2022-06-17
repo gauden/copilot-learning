@@ -22,3 +22,4 @@ Doing it in public is scary, but hey, who's watching?
 | 3   | Divide retrieval between `esearch` and `efetch`                 | [pubmed_extract](./pubmed_extract/README.md#version-02) |
 | 4   | First fully working version, storing results of  a full search  | [pubmed_extract](./pubmed_extract/README.md#version-03) |
 | 5   | Failed attempt to automate creation of SQLite table             | [pubmed_extract](./pubmed_extract/README.md#version-04) |
+| 5   | Collect simple record for each record in the search.            | [pubmed_extract](./pubmed_extract/README.md#version-05) |

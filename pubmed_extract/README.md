@@ -77,8 +77,14 @@ The answer: I am being too ambitious. Today's exercise took 54 minutes, includin
 
 Maybe I am being too ambitious? Let's see tomorrow.
 
+Total time: 54 minutes
+
 ## Version 05
 
 Another attempt to simplify the problem. Create two data classes that represent an author and a paper. Create another data class that represents a link between a specific author and a specific paper. Use these as the basis for creating the two tables (author and paper) and the relation between them (one author can write multiple papers and one paper can have multiple authors).
 
 First commit in this version: almost 400 lines of Copilot generated code, creating the tables, creating access methods. Too detailed. No agreement in record structure between functions, still needs immense level of pruning and rewriting. At this stage would take as much to correct this as it would to write it myself. Let's start afresh. [Commit message: Try detailed record creation for author and paper.]
+
+Second commit: Guided Copilot to create a simple `Author` dataclass with just name and affiliation for each author. Included extensive XML snippets in the comments to guide Copilot specifically on where to look for the information. Only now is this working, collecting every author from all papers in the search. [Commit message: Collect simple record for each author in search.] 
+
+Total time: 80 minutes
