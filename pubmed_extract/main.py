@@ -116,7 +116,7 @@ def parse_and_validate_args(args: list) -> argparse.Namespace:
     Parse and validate the command line arguments.
     """
     parser = argparse.ArgumentParser(description="Pubmed Extractor")
-    parser.add_argument("--output", "-o", default="output.txt", help="Output file")
+    parser.add_argument("--output", "-o", help="Output file")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
     parser.add_argument("author", help="Author to search for")
     parser.add_argument("start_year", type=int, help="Start year")

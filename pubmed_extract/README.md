@@ -76,3 +76,9 @@ One of the recurring problems with SQL is the tedium of creating tables and fiel
 The answer: I am being too ambitious. Today's exercise took 54 minutes, including the writing of this note, and despite multiple efforts to prompt recursive analysis of the XML object, I could not get a mapping to the SQL format I needed, even when I tried to convert to JSON as an intermediate format.
 
 Maybe I am being too ambitious? Let's see tomorrow.
+
+## Version 05
+
+Another attempt to simplify the problem. Create two data classes that represent an author and a paper. Create another data class that represents a link between a specific author and a specific paper. Use these as the basis for creating the two tables (author and paper) and the relation between them (one author can write multiple papers and one paper can have multiple authors).
+
+First commit in this version: almost 400 lines of Copilot generated code, creating the tables, creating access methods. Too detailed. No agreement in record structure between functions, still needs immense level of pruning and rewriting. At this stage would take as much to correct this as it would to write it myself. Let's start afresh. [Commit message: Try detailed record creation for author and paper.]
