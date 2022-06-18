@@ -88,3 +88,21 @@ First commit in this version: almost 400 lines of Copilot generated code, creati
 Second commit: Guided Copilot to create a simple `Author` dataclass with just name and affiliation for each author. Included extensive XML snippets in the comments to guide Copilot specifically on where to look for the information. Only now is this working, collecting every author from all papers in the search. [Commit message: Collect simple record for each author in search.] 
 
 Total time: 80 minutes
+
+## Version 06
+
+Starting this iteration with the plan to extract the paper details from the XML object in the same way as I did with the `Author` class, by providing a shorn down model of the fields I am interested in into the docstring of the functions. Using this method, it was possible to get all the boilerplate done for the extraction of fields from the XML element, and the creation of the dataclass in under five minutes. This is such a tedious task usually that it just stops me going any further. Copilot excels at this. It indeed feels like a junior assistant simply tasked with building up repetitive lines of code and trustworthy enough to do it well. What it does not do, is mentally parse the XML and correctly traverse the tree from root to the desired branch. This has to be done manually for every term, just to make sure everything is consistent.
+
+The whole of the time spent on this experiment today was to check every field I wanted to collect into the dataclass, ensure that it was correctly located in the tree traversal, remind Copilot repeatedly to check for `AttributeError` and to account for it correctly, and in keeping the dataclasses in sync with the fields I was collecting.
+
+At the end, this module has delivers what it says on the lid (though it has strayed heavily from the original mission as described in the module docstring -- "all comments are lies"):
+
+1. It globs through all the XML files in the data directory
+2. It parses all the PubMedCitations elements in each of the files
+3. It yields a `record` dataclass for each citation.
+
+For test files have been created in the data directory and the parsing is working well for each. Where to go next? Write some tests? Get back to the SQL side? Let's see what tomorrow feels like.
+
+[Commit message: Parse all papers in data directory.]
+
+Total time: 175 minutes
