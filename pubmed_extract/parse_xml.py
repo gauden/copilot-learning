@@ -408,8 +408,8 @@ def retrieve_paper(paper_element: ET.Element) -> dict:
 
 def extract_data_from_file(file_name: str) -> Iterator[Paper]:
     """
-    Parse each file from a list of file names
-    containing XML results of a PubMed search.
+    Parse each record from a file containing an
+    XML object representing the results of a PubMed search.
     """
     root = load_xml_file(file_name)
     for paper_element in root.findall("PubmedArticle"):

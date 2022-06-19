@@ -98,11 +98,22 @@ The whole of the time spent on this experiment today was to check every field I 
 At the end, this module has delivers what it says on the lid (though it has strayed heavily from the original mission as described in the module docstring -- "all comments are lies"):
 
 1. It globs through all the XML files in the data directory
-2. It parses all the PubMedCitations elements in each of the files
+2. It parses all the `PubMedCitation` elements in each of the files
 3. It yields a `record` dataclass for each citation.
 
-For test files have been created in the data directory and the parsing is working well for each. Where to go next? Write some tests? Get back to the SQL side? Let's see what tomorrow feels like.
+Four test files have been created in the data directory and the parsing is working well for each. Where to go next? Write some tests? Get back to the SQL side? Let's see what tomorrow feels like.
 
 [Commit message: Parse all papers in data directory.]
 
 Total time: 175 minutes
+
+Version 07
+
+There are four outstanding challenges for this set of scripts to become a useable package, if this is to make it as my first release on PyPI. 
+
+1. Create a database backend using the `sqlite3` package. Because no target user is going to exceed SQLite's capabilities. Because SQLite is in the standard library. Because I have not done this before, so Copilot will help me on another learning path.
+2. Reorganize the suite of scripts into an installable package.
+3. Set up a set of tests 
+4. Provide the necessary documentation and release.
+
+At this stage, today's experiment will focus on the first challenge.
