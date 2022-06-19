@@ -29,12 +29,18 @@ class Author:
 
 @dataclass
 class Reference:
-    citation: str
     pmid: str
+    citation: str
+
+
+@dataclass
+class MeshTerm:
+    term: str
 
 
 @dataclass
 class Paper:
+    pmc_id: str
     title: str
     journal: str
     journal_abbreviation: str
@@ -44,7 +50,6 @@ class Paper:
     pub_date: str
     page_numbers: str
     doi: str
-    pmc_id: str
     authors: List[Author]
     abstract: str
     mesh_terms: List[str]
@@ -358,12 +363,12 @@ def retrieve_paper(paper_element: ET.Element) -> dict:
     # Get the mesh terms of the paper returning empty list in case of AttributeError
     try:
         mesh_terms = []
-        for mesh_term in (
+        for term in (
             paper_element.find("MedlineCitation")
             .find("MeshHeadingList")
             .findall("MeshHeading")
         ):
-            mesh_terms.append(mesh_term.find("DescriptorName").text)
+            mesh_terms.append(MeshTerm(term.find("DescriptorName").text))
     except AttributeError:
         mesh_terms = []
     # Get the references of the paper returns empty list in case of AttributeError
@@ -374,8 +379,8 @@ def retrieve_paper(paper_element: ET.Element) -> dict:
         ):
             references.append(
                 Reference(
-                    reference.find("Citation").text,
                     reference.find("ArticleIdList").find("ArticleId").text,
+                    reference.find("Citation").text,
                 )
             )
     except AttributeError:
@@ -386,6 +391,7 @@ def retrieve_paper(paper_element: ET.Element) -> dict:
     quick_summary = f"{pmc_id} - {pub_date} - {title} - {journal_abbreviation}"
     # Return the paper
     record = Paper(
+        pmc_id,
         title,
         journal,
         journal_abbreviation,
@@ -395,7 +401,6 @@ def retrieve_paper(paper_element: ET.Element) -> dict:
         pub_date,
         page_numbers,
         doi,
-        pmc_id,
         authors,
         abstract,
         mesh_terms,

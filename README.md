@@ -26,5 +26,6 @@ Doing it in public is scary, but hey, who's watching?
 | 5   | Failed attempt to automate creation of SQLite table               | [pubmed_extract](./pubmed_extract/README.md#version-04) |
 | 6   | _Collect simple record for each author in the search._            | [pubmed_extract](./pubmed_extract/README.md#version-05) |
 | 7   | _Parse all papers in data directory._                             | [pubmed_extract](./pubmed_extract/README.md#version-06) |
+| 8   | V07.01 initial commit of SQLite feature                           | [pubmed_extract](./pubmed_extract/README.md#version-07) |
 
 _Italics_ indicate an addition to the experiment that works to spec.
