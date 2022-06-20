@@ -175,7 +175,7 @@ def create_date_string(year: str, month: str, day: str, medline_date: str) -> st
     return ds
 
 
-def retrieve_paper(paper_element: ET.Element) -> dict:
+def retrieve_paper(paper_element: ET.Element) -> Paper:
     """
         Extract the details of the paper given this XML structure:
 

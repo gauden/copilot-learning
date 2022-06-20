@@ -128,3 +128,13 @@ Embarrassed to report: No sooner did I write the above than I discovered that I 
 [Commit message: V07.01 initial commit of SQLite feature]
 
 Total time: 89 minutes
+
+## Version 08
+
+Continuing the SQL insertion feature. Each `Paper` has multiple `Author`, `Reference`, `MeshTerm` objects.
+Trying to get the functions lined up so that the system iterates through each file, and then through each `Paper` in each file, yielding tuples ready for insertion into the database. This is pure logic here and Copilot is only useful to just ensure that my syntax is correct. There are no code blocks being suggested. It does not seem to be making suggestions related to the type annotations.
+
+[Commit message: V07.02 Minor edits to SQL feature. Some huge bug...]
+
+Total time: 31 minutes
+

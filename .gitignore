@@ -125,3 +125,4 @@ dmypy.json
 .pyre/
 copilot-learning.code-workspace
 .DS_Store
+pubmed_extract/tmp.py

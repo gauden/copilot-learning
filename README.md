@@ -27,5 +27,6 @@ Doing it in public is scary, but hey, who's watching?
 | 6   | _Collect simple record for each author in the search._            | [pubmed_extract](./pubmed_extract/README.md#version-05) |
 | 7   | _Parse all papers in data directory._                             | [pubmed_extract](./pubmed_extract/README.md#version-06) |
 | 8   | V07.01 initial commit of SQLite feature                           | [pubmed_extract](./pubmed_extract/README.md#version-07) |
+| 9   | V07.02 Minor edits to SQL feature. Some huge bug...               | [pubmed_extract](./pubmed_extract/README.md#version-08) |
 
 _Italics_ indicate an addition to the experiment that works to spec.

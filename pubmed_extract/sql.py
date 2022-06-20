@@ -11,7 +11,7 @@ Create a table to connect the paper with Mesh Terms.
 from glob import glob
 import os
 import sqlite3
-from typing import Iterator, List, Tuple
+from typing import Dict, Iterator, List, Tuple
 from parse_xml import Paper, extract_data_from_file
 
 DATA_DIR = "./data"
@@ -103,7 +103,7 @@ def create_database_and_tables(db_name):
     conn.close()
 
 
-def prepare_batch_of_papers_for_insert(batch: Iterator[Paper]) -> Tuple[tuple]:
+def prepare_batch_of_papers_for_insert(batch: Iterator[Paper]) -> Dict[str, tuple]:
     """Prepare a batch of papers for insertion into the database.
 
     From each paper extract tuples that will be used to insert into the database:
@@ -117,7 +117,6 @@ def prepare_batch_of_papers_for_insert(batch: Iterator[Paper]) -> Tuple[tuple]:
 
     """
 
-    paper_tuple = []
     author_tuple = []
     author_paper_tuple = []
     reference_tuple = []
@@ -126,22 +125,20 @@ def prepare_batch_of_papers_for_insert(batch: Iterator[Paper]) -> Tuple[tuple]:
     paper_mesh_term_tuple = []
 
     for paper in batch:
-        paper_tuple.append(
-            (
-                paper.pmc_id,
-                paper.title,
-                paper.journal,
-                paper.journal_abbreviation,
-                paper.year,
-                paper.month,
-                paper.day,
-                paper.pub_date,
-                paper.page_numbers,
-                paper.doi,
-                paper.abstract,
-                paper.quick_summary,
-                paper.full_xml,
-            )
+        paper_tuple = (
+            paper.pmc_id,
+            paper.title,
+            paper.journal,
+            paper.journal_abbreviation,
+            paper.year,
+            paper.month,
+            paper.day,
+            paper.pub_date,
+            paper.page_numbers,
+            paper.doi,
+            paper.abstract,
+            paper.quick_summary,
+            paper.full_xml,
         )
         for author in paper.authors:
             author_tuple.append((author.name, author.affiliation))
@@ -153,15 +150,15 @@ def prepare_batch_of_papers_for_insert(batch: Iterator[Paper]) -> Tuple[tuple]:
             mesh_term_tuple.append((mesh_term,))
             paper_mesh_term_tuple.append((paper.pmc_id, mesh_term))
 
-    return (
-        paper_tuple,
-        author_tuple,
-        author_paper_tuple,
-        reference_tuple,
-        reference_paper_tuple,
-        mesh_term_tuple,
-        paper_mesh_term_tuple,
-    )
+        yield dict(
+            paper=paper_tuple,
+            authors=author_tuple,
+            author_paper=author_paper_tuple,
+            references=reference_tuple,
+            reference_paper=reference_paper_tuple,
+            terms=mesh_term_tuple,
+            paper_terms=paper_mesh_term_tuple,
+        )
 
 
 def insert_papers_into_db(db_name, papers: Tuple[tuple]):
@@ -169,69 +166,70 @@ def insert_papers_into_db(db_name, papers: Tuple[tuple]):
 
     Insert a batch of papers into the database as an ACID transaction.
     """
-    batch = prepare_batch_of_papers_for_insert(papers)
     conn = sqlite3.connect(db_name)
     c = conn.cursor()
-    c.executemany(
-        """INSERT INTO paper (
-        pmc_id,
-        title,
-        journal,
-        journal_abbreviation,
-        year,
-        month,
-        day,
-        pub_date,
-        page_numbers,
-        doi,
-        abstract,
-        quick_summary,
-        full_xml,
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-        batch[0],
-    )
-    c.executemany(
-        """INSERT INTO author (
-        name,
-        affiliation,
-        ) VALUES (?, ?)""",
-        batch[1],
-    )
-    c.executemany(
-        """INSERT INTO author_paper (
-        name,
-        pmc_id,
-        ) VALUES (?, ?)""",
-        batch[2],
-    )
-    c.executemany(
-        """INSERT INTO reference (
-        pmid,
-        citation,
-        ) VALUES (?, ?)""",
-        batch[3],
-    )
-    c.executemany(
-        """INSERT INTO reference_paper (
-        pmid,
-        pmc_id,
-        ) VALUES (?, ?)""",
-        batch[4],
-    )
-    c.executemany(
-        """INSERT INTO mesh_term (
-        term,
-        ) VALUES (?)""",
-        batch[5],
-    )
-    c.executemany(
-        """INSERT INTO paper_mesh_term (
-        pmc_id,
-        term,
-        ) VALUES (?, ?)""",
-        batch[6],
-    )
-    conn.commit()
+
+    for batch in prepare_batch_of_papers_for_insert(papers):
+        c.execute(
+            """INSERT INTO paper (
+            pmc_id,
+            title,
+            journal,
+            journal_abbreviation,
+            year,
+            month,
+            day,
+            pub_date,
+            page_numbers,
+            doi,
+            abstract,
+            quick_summary,
+            full_xml,
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            batch["paper"],
+        )
+        c.executemany(
+            """INSERT INTO author (
+            name,
+            affiliation,
+            ) VALUES (?, ?)""",
+            batch["authors"],
+        )
+        c.executemany(
+            """INSERT INTO author_paper (
+            name,
+            pmc_id,
+            ) VALUES (?, ?)""",
+            batch["author_paper"],
+        )
+        c.executemany(
+            """INSERT INTO reference (
+            pmid,
+            citation,
+            ) VALUES (?, ?)""",
+            batch["references"],
+        )
+        c.executemany(
+            """INSERT INTO reference_paper (
+            pmid,
+            pmc_id,
+            ) VALUES (?, ?)""",
+            batch["reference_paper"],
+        )
+        c.executemany(
+            """INSERT INTO mesh_term (
+            term,
+            ) VALUES (?)""",
+            batch["terms"],
+        )
+        c.executemany(
+            """INSERT INTO paper_mesh_term (
+            pmc_id,
+            term,
+            ) VALUES (?, ?)""",
+            batch["paper_terms"],
+        )
+        conn.commit()
     conn.close()
 
 
